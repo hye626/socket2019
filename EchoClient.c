@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 //에코서버 클라이언트 예제 6-1 파일 입출력
+=======
+//에코서버 클라이언트 예제 6-1
+>>>>>>> 99cefaf77ec258ee8e7264192e9cf693dfc2ce8d
 
 #include <stdio.h>
 #include <netinet/in.h>

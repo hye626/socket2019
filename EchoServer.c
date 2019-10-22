@@ -102,6 +102,20 @@ int main(){
 					sprintf(buffer, "파일이 없습니다.");
 				}
 			}
+<<<<<<< HEAD
+=======
+			else if (!strncasecmp(rcvBuffer, "exec ", 5)) {
+				char *command;
+				token = strtok(rcvBuffer, " "); //exec
+				command = strtok(NULL, "\0");
+				printf("command: %s\n", command);
+				int result = system(command);
+				if(result)
+					sprintf(buffer, "[%s] 명령어가 실패하였습니다.", command);
+				else
+					sprintf(buffer, "[%s] 명령어가 성공하였습니다.", command);
+			}	
+>>>>>>> 99cefaf77ec258ee8e7264192e9cf693dfc2ce8d
 			else
 				strcpy(buffer, "무슨 말인지 모르겠습니다.");
 		
