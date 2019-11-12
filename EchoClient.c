@@ -1,8 +1,4 @@
-<<<<<<< HEAD
-//에코서버 클라이언트 예제 6-1 파일 입출력
-=======
 //에코서버 클라이언트 예제 6-1
->>>>>>> 99cefaf77ec258ee8e7264192e9cf693dfc2ce8d
 
 #include <stdio.h>
 #include <netinet/in.h>
@@ -27,7 +23,7 @@ int main(){
 	c_addr.sin_addr.s_addr = inet_addr(IPADDR);
 	c_addr.sin_family = AF_INET;
 	c_addr.sin_port = htons(PORT);
-
+	
 	//3. 서버에 접속
 	if(connect(c_socket, (struct sockaddr *) &c_addr, sizeof(c_addr)) == -1){ 
 		printf("Cannot Connect\n");
@@ -43,13 +39,11 @@ int main(){
 		write(c_socket, message, strlen(message));
 		if(strncasecmp(message, "quit", 4) == 0 || strncasecmp(message, "kill server", 11) == 0)
 			break;
-
 		n = read(c_socket, message, sizeof(message)); 
 		if (n < 0){
 			printf("Read Failed\n");
 			return -1;
 		}
-
 		message[n] = '\0'; //문자열 뒷부분 깨짐 방지
 		printf("메시지 받음: %s\n", message); //서버에서 받은 메세지 출력
 	}

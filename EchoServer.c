@@ -10,7 +10,6 @@
 
 char buffer[BUFSIZE] = "Hello World.\n";
 char rcvBuffer[BUFSIZE];
-
 int main(){
 	int c_socket, s_socket;
 	struct sockaddr_in s_addr, c_addr;
@@ -43,7 +42,6 @@ int main(){
 		char *token;
 		char *str[3];
 		int i = 0;
-
 		len = sizeof(c_addr);
 		printf("클라이언트 접속을 기다리는 중....\n");
 		c_socket = accept(s_socket, (struct sockaddr *)&c_addr, &len);
@@ -54,7 +52,6 @@ int main(){
 			n = read(c_socket, rcvBuffer, sizeof(rcvBuffer));
 			printf("메시지 받음 : %s\n", rcvBuffer);
 			rcvBuffer[n] = '\0'; //개행 문자 삭제
-
 			if(strncasecmp(rcvBuffer, "quit", 4) == 0 || strncasecmp(rcvBuffer, "kill server", 11) == 0)
 					break;
 			else if(!strncmp(rcvBuffer, "안녕하세요", strlen("안녕하세요")))
@@ -89,36 +86,35 @@ int main(){
 				//str[0] = readfile
 				//str[1] = filename
 				if(i<2)
-					sprintf(buffer, "readfile 기능을 사용하기 위해서는 readfile <파일명> 형태로 입력하시오.");
-				FILE *fp = fopen(str[1], "r");
-				if(fp){
-					char tempStr[BUFSIZE];
-					memset(buffer, 0, BUFSIZE);
-					while(fgets(tempStr, BUFSIZE, (FILE *)fp)){
-						strcat(buffer, tempStr);
+					sprintf(buffer, "파일명을 입력해주세요.");
+				else{
+					FILE *fp = fopen(str[1], "r");
+					if(fp){
+						char tempStr[BUFSIZE]; //파일내용을 저장할 변수
+						memset(buffer, 0, BUFSIZE); //buffer 초기화
+						while(fgets(tempStr, BUFSIZE, (FILE *)fp)){
+							strcat(buffer, tempStr); //여러 줄의 내용을 하나의 buffer에 저장하기 위해 strcat() 함수
+						}
+						fclose(fp);
+					}else{
+						sprintf(buffer, "해당 파일은 존재하지 않습니다.");
 					}
-					fclose(fp);
-				}else{
-					sprintf(buffer, "파일이 없습니다.");
 				}
 			}
-<<<<<<< HEAD
-=======
 			else if (!strncasecmp(rcvBuffer, "exec ", 5)) {
 				char *command;
 				token = strtok(rcvBuffer, " "); //exec
-				command = strtok(NULL, "\0");
+				command = strtok(NULL, "\0"); //exec 뒤에 있는 모든 문자열을 command로 저장
 				printf("command: %s\n", command);
-				int result = system(command);
+				int result = system(command); //command가 정상 실행되면 0을 리턴, 그렇지 않으면 0이 아닌 에러코드
 				if(result)
 					sprintf(buffer, "[%s] 명령어가 실패하였습니다.", command);
 				else
 					sprintf(buffer, "[%s] 명령어가 성공하였습니다.", command);
 			}	
->>>>>>> 99cefaf77ec258ee8e7264192e9cf693dfc2ce8d
 			else
 				strcpy(buffer, "무슨 말인지 모르겠습니다.");
-		
+
 			n = strlen(buffer);
 			write(c_socket, buffer, n);
 			}
